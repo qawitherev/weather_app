@@ -43,9 +43,10 @@ class Weather with ChangeNotifier {
         feelsLike: (json['main']['feels_like']).toDouble(),
         pressure: json['main']['pressure'],
         desc: json['weather'][0]['description'],
-        currently: json['weather']['main'],
+        currently: json['weather'][0]['main'],
         humidity: json['main']['humidity'],
         windSpeed:(json['wind']['speed']).toDouble(),
         cityname: json['name']);
+    //ok
   }
 }
