@@ -17,6 +17,7 @@ class WeatherProvider with ChangeNotifier {
   late WeatherTest weather;
 
   bool get isLoading => _isLoading;
+
   //test purpose
   double lat = 3.0761084;
   double long = 101.5896045;
@@ -49,7 +50,9 @@ class WeatherProvider with ChangeNotifier {
     * String appId = apiKey
     * https://home.openweathermap.org/api_keys*/
     Uri url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&exclude=minutely&units=metric&appid=$apiKey');
+        'https://api.openweathermap.org/data/2.5/weather?lat=${location
+            .latitude}&lon=${location
+            .longitude}&exclude=minutely&units=metric&appid=$apiKey');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -77,5 +80,19 @@ class WeatherProvider with ChangeNotifier {
       locData = await Location().getLocation();
     });
     return locData!;
+  }
+
+  Future<void> searchWithLocation({required String location}) async {
+    Uri url = Uri.parse(
+      'https://api.openweathermap.org/data/2.5/weather?q=$location&units=metric&appid=$apiKey',);
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      print(extractedData);
+    }catch (error) {
+      print(error);
+    }finally {
+      // TODO: searchWithLocation finally block
+    }
   }
 }
