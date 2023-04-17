@@ -10,12 +10,13 @@ import 'package:my_weather_app/models/WeatherTest.dart';
 class WeatherProvider with ChangeNotifier {
   String apiKey = 'e00929ca7e8b64a6461db9404b3e92a7';
 
-  bool isLoading = false;
+  bool _isLoading = false;
   LatLng? currentLocation;
   bool isLocationError = false;
 
   late WeatherTest weather;
 
+  bool get isLoading => _isLoading;
   //test purpose
   double lat = 3.0761084;
   double long = 101.5896045;
@@ -23,7 +24,7 @@ class WeatherProvider with ChangeNotifier {
   /*optional param with default value
   * if pass will override default value*/
   Future<void> getWeatherData({bool isRefresh = false}) async {
-    isLoading = true;
+    _isLoading = true;
     await Location().requestService().then((value) async {
       if (value) {
         final locData = await Location().getLocation();
@@ -31,7 +32,7 @@ class WeatherProvider with ChangeNotifier {
         // await getCurrentWeather(currentLocation!);
         // await _getDailyWeather(currentLocation!);
       } else {
-        isLoading = false;
+        _isLoading = false;
         isLocationError = true;
         notifyListeners();
       }
@@ -39,6 +40,8 @@ class WeatherProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentWeather() async {
+    _isLoading = true;
+    notifyListeners();
     // TODO: initial=>accept location
     // TODO: implement _getCurrentWeather
     /*call to api requires
@@ -52,16 +55,11 @@ class WeatherProvider with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       print(extractedData);
       weather = WeatherTest.fromJson(extractedData);
-      print(
-          'temp is ${weather.temp}\ntempMin is ${weather.tempMin}\ntempMax is ${weather.tempMax}');
-      print('main is ${weather.main}\ndescription is ${weather.description}');
-      print('sunrise is at ${weather.sunrise} and sunset is at ${weather.sunset}');
-      print('city name is ${weather.name}');
     } catch (error) {
       print(error);
       rethrow;
     } finally {
-      isLoading = false;
+      _isLoading = false;
       notifyListeners();
     }
   }

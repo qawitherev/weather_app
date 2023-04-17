@@ -100,6 +100,12 @@ class MapString {
       case 'few clouds':
         text = "Few Clouds";
         break;
+      case 'overcast clouds':
+        text = 'Overcast Clouds';
+        break;
+      case 'haze':
+        text = 'Haze';
+        break;
       default:
         text = "No Info";
     }
