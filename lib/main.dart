@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_weather_app/provider/WeatherProvider.dart';
+import 'package:my_weather_app/widgets/Humidity.dart';
 import 'package:my_weather_app/widgets/MainWeather.dart';
 import 'package:my_weather_app/widgets/SunriseSunset.dart';
+import 'package:my_weather_app/widgets/Wind.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -62,11 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
               pinned: false,
             ),
             SliverToBoxAdapter(
-              child: weatherData.isLoading ? const Center(child: CircularProgressIndicator()) : Padding(
+              child: weatherData.isLoading ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: CircularProgressIndicator()),
+              ) : Padding(
                 padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
                 child: SingleChildScrollView(
                   child: Column(
-                    children: const [MainWeather(), Divider(), SunriseSunset()],
+                    children: const [MainWeather(), Divider(), SunriseSunset(), Humidity(), Wind()],
                   ),
                 ),
               ),

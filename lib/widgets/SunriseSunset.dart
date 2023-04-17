@@ -8,7 +8,7 @@ class SunriseSunset extends StatelessWidget {
   const SunriseSunset({Key? key}) : super(key: key);
 
   final TextStyle _style1 =
-      const TextStyle(fontSize: 15, fontWeight: FontWeight.normal);
+      const TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
 
   Widget _sunriseSunsetBuilder(
       {required String header, required String body, required IconData icon}) {
@@ -53,8 +53,8 @@ class SunriseSunset extends StatelessWidget {
     return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Material(
-              elevation: 5,
-              borderRadius: BorderRadius.circular(10),
+              elevation: 2,
+              borderRadius: BorderRadius.circular(10.0),
               child: Consumer<WeatherProvider>(
                 builder: (context, weatherData, _) {
                   return Padding(

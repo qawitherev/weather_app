@@ -9,6 +9,10 @@ class WeatherTest {
   final String name;
   final int dt;
   final double feelsLike;
+  final int humidity;
+  final int visibility;
+  final double windSpeed;
+  final int windAngle;
 
   WeatherTest({
     required this.temp,
@@ -21,6 +25,10 @@ class WeatherTest {
     required this.name,
     required this.dt,
     required this.feelsLike,
+    required this.humidity,
+    required this.visibility,
+    required this.windSpeed,
+    required this.windAngle,
   });
 
   factory WeatherTest.fromJson(Map<String, dynamic> json) {
@@ -35,6 +43,10 @@ class WeatherTest {
       name: (json['name']).toString(),
       dt: (json['dt']).toInt(),
       feelsLike: (json['main']['feels_like']),
+      humidity: (json['main']['humidity']).toInt(),
+      visibility: (json['visibility']).toInt(),
+      windSpeed: (json['wind']['speed']).toDouble(),
+      windAngle: (json['wind']['deg']).toInt(),
     );
   }
 }
