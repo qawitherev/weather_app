@@ -49,6 +49,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final weatherData = Provider.of<WeatherProvider>(context);
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => _refreshWeather(context),
@@ -61,9 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
               pinned: false,
             ),
             SliverToBoxAdapter(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: const [MainWeather(), SunriseSunset()],
+              child: weatherData.isLoading ? const Center(child: CircularProgressIndicator()) : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: const [MainWeather(), Divider(), SunriseSunset()],
+                  ),
                 ),
               ),
             ),
@@ -77,14 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
   * so we want to refresh to get latest data*/
   Future<void> _refreshWeather(BuildContext context) async {
     await Provider.of<WeatherProvider>(context, listen: false)
-        .getCurrentWeather();
-    print('weather refreshed');
+        .getWeatherData(isRefresh: true);
   }
 
   /*this is when app opens, weather is null and no data*/
   Future<void> _getData() async {
     final weatherData = Provider.of<WeatherProvider>(context, listen: false);
-    weatherData.getCurrentWeather();
+    weatherData.getWeatherData(isRefresh: true);
   }
 
   @override

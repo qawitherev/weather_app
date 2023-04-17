@@ -20,7 +20,7 @@ class MainWeather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<WeatherProvider>(builder: (context, weatherData, _) {
-      return weatherData.isLoading ? const Center(child: CircularProgressIndicator()) : Padding(
+      return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

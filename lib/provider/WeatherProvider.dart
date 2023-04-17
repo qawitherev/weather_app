@@ -29,7 +29,7 @@ class WeatherProvider with ChangeNotifier {
       if (value) {
         final locData = await Location().getLocation();
         currentLocation = LatLng(locData.latitude!, locData.longitude!);
-        // await getCurrentWeather(currentLocation!);
+        await getCurrentWeather(currentLocation!);
         // await _getDailyWeather(currentLocation!);
       } else {
         _isLoading = false;
@@ -39,7 +39,7 @@ class WeatherProvider with ChangeNotifier {
     });
   }
 
-  Future<void> getCurrentWeather() async {
+  Future<void> getCurrentWeather(LatLng location) async {
     _isLoading = true;
     notifyListeners();
     // TODO: initial=>accept location
@@ -49,7 +49,7 @@ class WeatherProvider with ChangeNotifier {
     * String appId = apiKey
     * https://home.openweathermap.org/api_keys*/
     Uri url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&exclude=minutely&units=metric&appid=$apiKey');
+        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&exclude=minutely&units=metric&appid=$apiKey');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
