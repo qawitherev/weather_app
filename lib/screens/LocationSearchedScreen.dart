@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:my_weather_app/provider/WeatherProvider.dart';
-import 'package:my_weather_app/widgets/Humidity.dart';
+import 'package:my_weather_app/widgets/SearchedHumidity.dart';
 import 'package:my_weather_app/widgets/SearchedMain.dart';
+import 'package:my_weather_app/widgets/SearchedSunriseSunset.dart';
+import 'package:my_weather_app/widgets/SearchedWind.dart';
 import 'package:provider/provider.dart';
 
 class LocationSearchedScreen extends StatefulWidget {
@@ -20,32 +22,44 @@ class _LocationSearchedScreenState extends State<LocationSearchedScreen> {
   Widget build(BuildContext context) {
     final weatherData = Provider.of<WeatherProvider>(context, listen: true);
     return weatherData.isLoading
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [CircularProgressIndicator()],
+        ? Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [CircularProgressIndicator()],
+              ),
             ),
           )
         : Scaffold(
             backgroundColor: Colors.white,
-            body: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  title: Text(widget.location),
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  actions: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(MdiIcons.settingsHelper)),
-                  ],
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: const [SearchedMain()],
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverAppBar(
+                    title: Text(widget.location),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    actions: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(MdiIcons.settingsHelper)),
+                    ],
                   ),
-                )
-              ],
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: const [
+                        SearchedMain(),
+                        Divider(),
+                        SearchedSunriseSunset(),
+                        SearchedHumidity(),
+                        SearchedWind(),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
   }
