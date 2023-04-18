@@ -21,12 +21,23 @@ class _LocationSearchedScreenState extends State<LocationSearchedScreen> {
   @override
   Widget build(BuildContext context) {
     final weatherData = Provider.of<WeatherProvider>(context, listen: true);
-    return weatherData.isLoading
+    return weatherData.isLoading || weatherData.isLocationMissing
         ? Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [CircularProgressIndicator()],
+            appBar: AppBar(backgroundColor: Colors.white, elevation: 0, foregroundColor: Colors.black,),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                     SizedBox(
+                      height: 10,
+                    ),
+                     Text(
+                        'If taking too long, entered location may not exist', textAlign: TextAlign.center,),
+                  ],
+                ),
               ),
             ),
           )

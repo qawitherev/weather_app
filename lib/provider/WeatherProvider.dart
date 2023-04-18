@@ -10,6 +10,8 @@ class WeatherProvider with ChangeNotifier {
   String apiKey = 'e00929ca7e8b64a6461db9404b3e92a7';
 
   bool _isLoading = false;
+  bool _isLocationMissing = false;
+
   LatLng? currentLocation;
   bool isLocationError = false;
 
@@ -17,6 +19,7 @@ class WeatherProvider with ChangeNotifier {
   late WeatherTest weatherSearched;
 
   bool get isLoading => _isLoading;
+  bool get isLocationMissing => _isLocationMissing;
 
   //test purpose
   double lat = 3.0761084;
@@ -67,9 +70,6 @@ class WeatherProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _getDailyWeather(LatLng location) async {
-    // TODO: implement getDailyWeather
-  }
 
   Future<LocationData> getLocation() async {
     LocationData? locData = null;
@@ -84,6 +84,7 @@ class WeatherProvider with ChangeNotifier {
 
   Future<void> searchWithLocation({required String location}) async {
     _isLoading = true;
+    _isLocationMissing = false;
     notifyListeners();
     Uri url = Uri.parse(
       'https://api.openweathermap.org/data/2.5/weather?q=$location&units=metric&appid=$apiKey',);
@@ -93,7 +94,8 @@ class WeatherProvider with ChangeNotifier {
       weatherSearched = WeatherTest.fromJson(extractedData);
       print(extractedData);
     }catch (error) {
-      print(error);
+      _isLocationMissing = true;
+      notifyListeners();
     }finally {
       _isLoading = false;
       notifyListeners();
