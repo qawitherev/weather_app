@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
-import 'package:my_weather_app/models/Weather.dart';
 import 'package:my_weather_app/models/WeatherTest.dart';
 
 class WeatherProvider with ChangeNotifier {
@@ -15,6 +14,7 @@ class WeatherProvider with ChangeNotifier {
   bool isLocationError = false;
 
   late WeatherTest weather;
+  late WeatherTest weatherSearched;
 
   bool get isLoading => _isLoading;
 
@@ -83,16 +83,20 @@ class WeatherProvider with ChangeNotifier {
   }
 
   Future<void> searchWithLocation({required String location}) async {
+    _isLoading = true;
+    notifyListeners();
     Uri url = Uri.parse(
       'https://api.openweathermap.org/data/2.5/weather?q=$location&units=metric&appid=$apiKey',);
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      weatherSearched = WeatherTest.fromJson(extractedData);
       print(extractedData);
     }catch (error) {
       print(error);
     }finally {
-      // TODO: searchWithLocation finally block
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

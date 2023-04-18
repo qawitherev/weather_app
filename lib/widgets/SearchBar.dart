@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:my_weather_app/screens/LocationSearchedScreen.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -36,6 +37,9 @@ class _SearchBarState extends State<SearchBar> {
                   controller: locationCtrl,
                   decoration: const InputDecoration.collapsed(hintText: 'Search Location'),
                   style: const TextStyle(fontSize: 18),
+                  onSubmitted: (value) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LocationSearchedScreen(location: value)));
+                  },
                 ),
               )
             ],
